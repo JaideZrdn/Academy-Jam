@@ -10,6 +10,7 @@ import SpriteKit
 
 class FlowerNode: SKNode {
     let sprite: SKSpriteNode
+    let greenArea: SKShapeNode
     
     public var isAlive: Bool
     private var _health: Int
@@ -28,12 +29,19 @@ class FlowerNode: SKNode {
     }
     
     override init() {
-        self.sprite = SKSpriteNode(color: .systemPink, size: .init(width: 30, height: 30))
+        self.sprite = .init(color: .systemPink, size: .init(width: 30, height: 30))
+        
+        self.greenArea =  .init(circleOfRadius: 1)
+        self.greenArea.fillColor = .green
+        self.greenArea.strokeColor = .clear
+        
+        
         self.isAlive = true
         self._health = 100
         super.init()
         
         self.addChild(sprite)
+        self.addChild(greenArea)
     }
     
     func takeDamage(damage: Int = 8) {
@@ -45,6 +53,12 @@ class FlowerNode: SKNode {
             self.isAlive = false
             self.sprite.color = .init(red: 0.3, green: 0, blue: 0, alpha: 1)
         }
+    }
+    
+    func enlargeGreenArea(by factor: CGFloat = 1.5, duration: CGFloat) {
+        self.greenArea.run(.scale(by: factor, duration: duration))
+        // TODO: Nao sei como consertar
+        print("Radius: \(self.greenArea.path!)")
     }
     
     required init?(coder aDecoder: NSCoder) {
