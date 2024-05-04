@@ -13,6 +13,7 @@
 		64FC613D2BE6B8F300AE602C /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 64FC613C2BE6B8F300AE602C /* Base */; };
 		64FC613F2BE6B8F400AE602C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 64FC613E2BE6B8F400AE602C /* Assets.xcassets */; };
 		64FC61422BE6B8F400AE602C /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 64FC61412BE6B8F400AE602C /* Base */; };
+		A0BA3B7D2BE6C3AC005F5558 /* FlowerNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0BA3B7C2BE6C3AC005F5558 /* FlowerNode.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,6 +24,7 @@
 		64FC613C2BE6B8F300AE602C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		64FC613E2BE6B8F400AE602C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		64FC61412BE6B8F400AE602C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		A0BA3B7C2BE6C3AC005F5558 /* FlowerNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowerNode.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,6 +63,7 @@
 				64FC613B2BE6B8F300AE602C /* Main.storyboard */,
 				64FC613E2BE6B8F400AE602C /* Assets.xcassets */,
 				64FC61402BE6B8F400AE602C /* LaunchScreen.storyboard */,
+				A0BA3B7C2BE6C3AC005F5558 /* FlowerNode.swift */,
 			);
 			path = "Academy-Jam";
 			sourceTree = "<group>";
@@ -136,6 +139,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A0BA3B7D2BE6C3AC005F5558 /* FlowerNode.swift in Sources */,
 				64FC61382BE6B8F300AE602C /* GameScene.swift in Sources */,
 				64FC613A2BE6B8F300AE602C /* GameViewController.swift in Sources */,
 				64FC61322BE6B8F300AE602C /* AppDelegate.swift in Sources */,
