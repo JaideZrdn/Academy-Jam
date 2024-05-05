@@ -79,7 +79,7 @@ class MonsterNode: SKNode, SKPhysicsContactDelegate {
         let timeToCenter = distanceToCenter/velocity
         let moveAction = SKAction.move(to: .zero, duration: timeToCenter)
         
-        self.addChild(sprite)
+//        self.addChild(sprite)
         self.run(moveAction)
     }
     
