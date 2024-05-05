@@ -19,7 +19,6 @@ class GameScene: SKScene {
     var buttonDown = PressButtonNode(name: "downButton")
     var buttonWatering = ToggleButtonNode(name: "wateringButton")
     var buttonAttacking = ToggleButtonNode(name: "attackingButton")
-    var flower = FlowerNode()
     
     override func didMove(to view: SKView) {
         //
@@ -29,13 +28,9 @@ class GameScene: SKScene {
     
     override func sceneDidLoad() {
         //
-<<<<<<< HEAD
-        flower.zPosition = 1
-        addChild(flower)
-=======
-        addChild(jardineiro)
         configButton()
->>>>>>> main
+        addChild(flower)
+        addChild(jardineiro)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -84,10 +79,10 @@ class GameScene: SKScene {
     }
     
     func configButton(){
-        buttonUp.position = .init(x: -50, y: 0)
-        buttonDown.position = .init(x: -50, y: -100)
-        buttonLeft.position = .init(x: -85, y: -50)
-        buttonRight.position = .init(x: -15, y: -50)
+        buttonUp.position = .init(x: -300, y: 0)
+        buttonDown.position = .init(x: buttonUp.position.x, y: buttonUp.position.y-70)
+        buttonLeft.position = .init(x: buttonUp.position.x-35, y: buttonUp.position.y-35)
+        buttonRight.position = .init(x: buttonUp.position.x+35, y: buttonLeft.position.y)
         buttonWatering.position = .init(x: -180, y: 100)
         buttonAttacking.position = .init(x: 80, y: 0)
         
