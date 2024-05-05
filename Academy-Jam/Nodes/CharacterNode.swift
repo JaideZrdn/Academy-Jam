@@ -121,7 +121,6 @@ class Gardener: SKNode {
         
         attackRange.physicsBody!.isDynamic = false
         attackRange.physicsBody!.categoryBitMask = PhysicsCategory.Attack.rawValue
-        attackRange.physicsBody!.collisionBitMask = PhysicsCategory.Player.rawValue
         
         self.addChild(attackRange)
         
