@@ -18,16 +18,13 @@ class GameScene: SKScene {
     var buttonUp = PressButtonNode(name: "upButton")
     var buttonDown = PressButtonNode(name: "downButton")
     var buttonWatering = PressButtonNode(name: "wateringButton")
-    var buttonAttacking = ToggleButtonNode(name: "attackingButton")
+    var buttonAttacking = ActionButtonNode(name: "attackingButton")
     
     override func didMove(to view: SKView) {
-        //
-        
         spawnMonsterCycle()
     }
     
     override func sceneDidLoad() {
-        //
         configButton()
         addChild(flower)
         addChild(jardineiro)
@@ -55,6 +52,14 @@ class GameScene: SKScene {
                 }
             }
         }
+        if flower.sprite.contains(CGPoint(x: jardineiro.sprite.position.x, y: jardineiro.sprite.position.y+10)) {
+            buttonWatering.toggleUserInteraction(to: true)
+            print("ta dentro")
+        } else {
+            buttonWatering.toggleUserInteraction(to: false)
+            print("ta fora")
+        }
+    
     }
     
     func spawnMonsterCycle() {
@@ -86,11 +91,18 @@ class GameScene: SKScene {
         buttonWatering.position = .init(x: -180, y: 100)
         buttonAttacking.position = .init(x: 80, y: 0)
         
+        buttonUp.zPosition = 10
+        buttonDown.zPosition = 10
+        buttonLeft.zPosition = 10
+        buttonRight.zPosition = 10
+        buttonWatering.zPosition = 10
+        buttonAttacking.zPosition = 10
+        
         buttonAttacking.setActionBegin {
             self.jardineiro.attacking()
         }
         buttonAttacking.setActionEnd {
-            self.jardineiro.attacking()
+            self.jardineiro.idle()
         }
         
         buttonUp.setActionBegin {

@@ -16,8 +16,8 @@ class ButtonNode: SKNode {
     var actionEnd: (() -> Void)?
     
     init(name: String){
-//        sprite = .init(imageNamed: name)
-        sprite = .init(color: .green, size: .init(width: 30, height: 30))
+        self.sprite = .init(color: .green, size: .init(width: 30, height: 30))
+        self.sprite.alpha = 0.6
         super.init()
         self.name = name
         
@@ -53,13 +53,15 @@ class PressButtonNode: ButtonNode {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         isBeingTouched = true
-        
+        sprite.alpha = 0.8
+        sprite.run(.scale(by: 11/10, duration: 0.1))
         self.actionBegin?()
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         isBeingTouched = false
-        
+        sprite.alpha = 0.6
+        sprite.run(.scale(by: 10/11, duration: 0.1))
         self.actionEnd?()
     }
 }
@@ -78,4 +80,28 @@ class ToggleButtonNode: ButtonNode {
         }
     }
     
+}
+
+class ActionButtonNode: ButtonNode {
+    public var isOnAction: Bool = false
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if isOnAction {return}
+        
+        self.run(.sequence([
+            .run {
+                self.isOnAction = true
+                self.sprite.alpha = 0.8
+                self.sprite.run(.scale(by: 11/10, duration: 0.1))
+                self.actionBegin?()
+            },
+            .wait(forDuration: 0.8),
+            .run {
+                self.isOnAction = false
+                self.sprite.alpha = 0.6
+                self.sprite.run(.scale(by: 10/11, duration: 0.1))
+                self.actionEnd?()
+            }
+        ]))
+    }
 }
