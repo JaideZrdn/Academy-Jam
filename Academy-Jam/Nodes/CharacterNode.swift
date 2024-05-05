@@ -73,7 +73,7 @@ class Gardener: SKNode {
         var textures: [SKTexture] = []
         
         for index in 1...4 {
-            let newTexture = "\(self.name!)_\(state.rawValue)_\(currentDirection.rawValue)"
+            let newTexture = "\(self.name!)_\(state.rawValue)_\(currentDirection.rawValue)_\(index)"
             textures.append(.init(imageNamed: newTexture))
         }
         
@@ -95,8 +95,16 @@ class Gardener: SKNode {
         sprite.run(createMoveAnimation(direction: direction))
     }
     
-    public func watering(){
+    public func watering(flower: FlowerNode){
         changeAnimation(state: .watering, direction: .down)
+        
+        self.position = .init(x: flower.position.x, y: flower.position.y + 50)
+        
+        let cureAction = SKAction.sequence([.wait(forDuration: 1), .run {
+            flower.heal(amount: 10)
+        }])
+        
+        self.run(.repeatForever(cureAction))
     }
     
     public func attacking(){
