@@ -35,8 +35,10 @@ enum FlowerStates: String {
 
 class FlowerNode: SKNode {
     let sprite: SKSpriteNode
+    let healthLabel: SKLabelNode
 //    let greenArea: SKShapeNode
     
+    public var isTakingDamage: Bool
     public var isAlive: Bool
     private var _health: Int
     var health: Int {
@@ -61,14 +63,24 @@ class FlowerNode: SKNode {
 //        self.greenArea.fillColor = .green
 //        self.greenArea.strokeColor = .clear
 //        
-        
+        self.isTakingDamage = false
         self.isAlive = true
+        
         self._health = 50
+        self.healthLabel = .init(text: "50")
+        self.healthLabel.position.y -= 40
+        self.healthLabel.fontSize = 20
+        self.healthLabel.color = .white
+        self.healthLabel.zPosition = 10
+        
         self.state = .neutral
         super.init()
         
         self.addChild(sprite)
+        self.addChild(healthLabel)
 //        self.addChild(greenArea)
+        
+        isUserInteractionEnabled = true
     }
     
     func takeDamage(damage: Int = 8) {
@@ -84,11 +96,20 @@ class FlowerNode: SKNode {
         }
         
         self.health -= damage
-        print("Health: \(self.health)")
+        self.healthLabel.text = "\(self.health)"
         if self.health == 0 {
             self.isAlive = false
-            self.sprite.color = .init(red: 0.3, green: 0, blue: 0, alpha: 1)
         }
+        
+        self.run(.sequence([
+            .run {
+                self.isTakingDamage = true
+            },
+            .wait(forDuration: 0.8),
+            .run {
+                self.isTakingDamage = false
+            }
+        ]))
     }
     
     func heal(amount: Int = 2) {
@@ -98,12 +119,13 @@ class FlowerNode: SKNode {
         switch self.health {
         case (100-amount)..<100, (80-amount)..<80, (60-amount)..<60, (40-amount)..<40, (20-amount)..<20:
             self.state.levelUp()
+            self.sprite.texture = .init(imageNamed: "flower_\(self.state.rawValue)")
         default:
             break
         }
         
         self.health += amount
-        print("Health: \(self.health)")
+        self.healthLabel.text = "\(self.health)"
         
     }
     /*
@@ -113,6 +135,10 @@ class FlowerNode: SKNode {
 //        print("Radius: \(self.greenArea.path!)")
     }
      */
+    
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.heal()
+    }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

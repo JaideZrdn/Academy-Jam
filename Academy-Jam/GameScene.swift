@@ -10,6 +10,7 @@ import GameplayKit
 
 class GameScene: SKScene {
     
+    let flower: FlowerNode = .init()
     var monsters: Array<MonsterNode> = []
     
     override func didMove(to view: SKView) {
@@ -19,6 +20,8 @@ class GameScene: SKScene {
     
     override func sceneDidLoad() {
         //
+        flower.zPosition = 1
+        addChild(flower)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -35,12 +38,14 @@ class GameScene: SKScene {
         }
     }
     
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-       //
-    }
-    
-    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
-        //
+    override func update(_ currentTime: TimeInterval) {
+        if !flower.isTakingDamage {
+            for i in 0..<monsters.count {
+                if flower.contains(monsters[i].position) {
+                    flower.takeDamage()
+                }
+            }
+        }
     }
     
     func spawnMonsterCycle() {
@@ -59,6 +64,7 @@ class GameScene: SKScene {
     private func addMonster() {
         let monster = MonsterNode()
         self.monsters.append(monster)
+        monster.zPosition = 5
         monster.spawn()
         self.addChild(monster)
     }
