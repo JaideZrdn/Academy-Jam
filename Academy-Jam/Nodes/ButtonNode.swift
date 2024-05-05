@@ -16,7 +16,8 @@ class ButtonNode: SKNode {
     var actionEnd: (() -> Void)?
     
     init(name: String){
-        sprite = .init(imageNamed: name)
+//        sprite = .init(imageNamed: name)
+        sprite = .init(color: .green, size: .init(width: 30, height: 30))
         super.init()
         self.name = name
         

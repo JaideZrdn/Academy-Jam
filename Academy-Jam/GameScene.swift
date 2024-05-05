@@ -12,16 +12,30 @@ class GameScene: SKScene {
     
     let flower: FlowerNode = .init()
     var monsters: Array<MonsterNode> = []
+    var jardineiro = Gardener(baseSprite: "jardineiro")
+    var buttonLeft = PressButtonNode(name: "leftButton")
+    var buttonRight = PressButtonNode(name: "rightButton")
+    var buttonUp = PressButtonNode(name: "upButton")
+    var buttonDown = PressButtonNode(name: "downButton")
+    var buttonWatering = ToggleButtonNode(name: "wateringButton")
+    var buttonAttacking = ToggleButtonNode(name: "attackingButton")
+    var flower = FlowerNode()
     
     override func didMove(to view: SKView) {
         //
+        
         spawnMonsterCycle()
     }
     
     override func sceneDidLoad() {
         //
+<<<<<<< HEAD
         flower.zPosition = 1
         addChild(flower)
+=======
+        addChild(jardineiro)
+        configButton()
+>>>>>>> main
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -67,5 +81,63 @@ class GameScene: SKScene {
         monster.zPosition = 5
         monster.spawn()
         self.addChild(monster)
+    }
+    
+    func configButton(){
+        buttonUp.position = .init(x: -50, y: 0)
+        buttonDown.position = .init(x: -50, y: -100)
+        buttonLeft.position = .init(x: -85, y: -50)
+        buttonRight.position = .init(x: -15, y: -50)
+        buttonWatering.position = .init(x: -180, y: 100)
+        buttonAttacking.position = .init(x: 80, y: 0)
+        
+        buttonAttacking.setActionBegin {
+            self.jardineiro.attacking()
+        }
+        buttonAttacking.setActionEnd {
+            self.jardineiro.attacking()
+        }
+        
+        buttonUp.setActionBegin {
+            self.jardineiro.walk(direction: .up)
+        }
+        buttonUp.setActionEnd {
+            self.jardineiro.idle()
+        }
+        
+        buttonDown.setActionBegin {
+            self.jardineiro.walk(direction: .down)
+        }
+        buttonDown.setActionEnd {
+            self.jardineiro.idle()
+        }
+        
+        buttonLeft.setActionBegin {
+            self.jardineiro.walk(direction: .left)
+        }
+        buttonLeft.setActionEnd {
+            self.jardineiro.idle()
+        }
+        
+        buttonRight.setActionBegin {
+            self.jardineiro.walk(direction: .right)
+        }
+        buttonRight.setActionEnd {
+            self.jardineiro.idle()
+        }
+        
+        buttonWatering.setActionBegin {
+            self.jardineiro.watering(flower: self.flower)
+        }
+        buttonWatering.setActionEnd {
+            self.jardineiro.idle()
+        }
+        
+        self.addChild(buttonUp)
+        self.addChild(buttonDown)
+        self.addChild(buttonRight)
+        self.addChild(buttonLeft)
+        self.addChild(buttonWatering)
+        self.addChild(buttonAttacking)
     }
 }

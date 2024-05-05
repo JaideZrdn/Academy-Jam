@@ -17,11 +17,11 @@ enum PhysicsCategory: UInt32 {
 }
 
 enum Directions: String{
-    case up, down, left, right
+    case up = "up", down, left, right
 }
 
 enum States: String{
-    case walking, attacking, watering, idle
+    case walking = "walking", atacking, watering, idle
 }
 
 class Gardener: SKNode {
@@ -34,6 +34,9 @@ class Gardener: SKNode {
     
     init(baseSprite: String){
         sprite = .init(imageNamed: baseSprite)
+        sprite.setScale(0.5)
+        sprite.texture?.filteringMode = .nearest
+
         sprite.name = baseSprite
         super.init()
         self.name = baseSprite
@@ -73,8 +76,9 @@ class Gardener: SKNode {
         var textures: [SKTexture] = []
         
         for index in 1...4 {
-            let newTexture = "\(self.name!)_\(state.rawValue)_\(currentDirection.rawValue)_\(index)"
-            textures.append(.init(imageNamed: newTexture))
+            let newTexture = SKTexture(imageNamed:"\(self.name!)_\(state.rawValue)_\(currentDirection.rawValue)_\(index)")
+            newTexture.filteringMode = .nearest
+            textures.append(newTexture)
         }
         
         return .animate(with: textures, timePerFrame: baseAnimTime)
@@ -108,7 +112,7 @@ class Gardener: SKNode {
     }
     
     public func attacking(){
-        changeAnimation(state: .attacking, direction: self.currentDirection)
+        changeAnimation(state: .atacking, direction: self.currentDirection)
         let attackRange = SKNode()
         attackRange.name = "attackRange"
         
@@ -134,7 +138,9 @@ class Gardener: SKNode {
         
         let attackDuration = TimeInterval(0.8)
         let waitAction = SKAction.wait(forDuration: attackDuration)
-        let removeAttackAction = SKAction.removeFromParent()
+        let removeAttackAction = SKAction.run {
+            attackRange.removeFromParent()
+        }
         let attackSequence = SKAction.sequence([waitAction, removeAttackAction])
         self.run(attackSequence)
         
