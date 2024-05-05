@@ -46,16 +46,16 @@ class MonsterNode: SKNode {
     
     private func walkingAnimation() -> SKAction {
         // FIXME: Temporary
-        return .rotate(byAngle: 30, duration: 0.5)
+        return .rotate(byAngle: 1, duration: 0.5)
     }
     
     private func dyingAnimation() -> SKAction {
         // FIXME: Temporary
-        return .fadeOut(withDuration: 1)
+        return .fadeOut(withDuration: 0.3)
     }
     
     func spawn(at _point: CGPoint? = nil) {
-        let point: CGPoint = _point ?? .randomInCircumference(ofRadius: 300)
+        let point: CGPoint = _point ?? .randomInCircumference(ofRadius: 500)
         self.position = point
         self.run(.repeatForever(walkingAnimation()))
         
@@ -65,6 +65,7 @@ class MonsterNode: SKNode {
         let timeToCenter = distanceToCenter/velocity
         let moveAction = SKAction.move(to: .zero, duration: timeToCenter)
 
+        self.addChild(sprite)
         self.run(moveAction)
     }
     
