@@ -1,107 +1,92 @@
 //
-//CharacterNode.swift
-//Academy-Jam
+//  TestCharacterNode.swift
+//  Academy-Jam
 //
-//CreatedbyJaideZardinon04/05/24.
+//  Created by Jaide Zardin on 05/05/24.
 //
-
-
 
 import Foundation
-
 import SpriteKit
 
 enum Directions: String{
-    case foward, backward, left, right
+    case forward, backward, left, right
 }
 
 enum States: String{
     case walking, attacking, watering, idle
 }
 
-
-class Character: SKNode{
-    var currentDirection: Directions = .foward
-    var sprite: SKSpriteNode
-    var currentState: States = .idle
-    let timeInterval = 0.2
-    private var isMoving: Bool = false
+class Gardener: SKNode {
     
-    init (name:String) {
-        sprite = .init(imageNamed:name)
-        sprite.name = name
+    private var baseAnimTime = 0.2
+    private var velocity: CGFloat = 12
+    let sprite: SKSpriteNode
+    var currentDirection: Directions = .right
+    var currentState: States = .idle
+    
+    init(baseSprite: String){
+        sprite = .init(imageNamed: baseSprite)
+        sprite.name = baseSprite
         super.init()
-        self.name = name
+        self.name = baseSprite
         self.addChild(sprite)
-        self.sprite.run(stateAnimation(estado: .idle))
+        changeAnimation(state: .idle, direction: .right)
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public func stateAnimation(estado: States) -> SKAction{
-        var textures: [SKTexture] = []
-        
-        for index in 1...4{
-            let newTexture = "\(self.name!))_\(estado.rawValue)_\(index)"
-            textures.append(.init(imageNamed: newTexture))
+    private func createMoveAnimation(direction: Directions) -> SKAction{
+        let vector: CGVector
+        switch direction{
+        case .forward:
+            vector = .init(dx: 0, dy: velocity)
+        case .backward:
+            vector = .init(dx: 0, dy: -velocity)
+        case .right:
+            vector = .init(dx: velocity, dy: 0)
+        case .left:
+            vector = .init(dx: -velocity, dy: 0)
         }
-        return.animate(with: textures, timePerFrame: timeInterval)
+        
+        return .repeatForever(.move(by: vector, duration: 0.05))
     }
     
-    public func walkingAnimation(direcao: Directions) -> SKAction{
+    func setDirection(to direction: Directions){
+        self.currentDirection = direction
+    }
+    
+    func setState(to state: States){
+        self.currentState = state
+    }
+    
+    func getAnimation(state: States) -> SKAction {
         var textures: [SKTexture] = []
         
         for index in 1...4 {
-            let newTexture = "\(self.name!)_\(direcao.rawValue)_\(index)"
+            let newTexture = "\(self.name!)_\(state.rawValue)_\(currentDirection.rawValue)"
             textures.append(.init(imageNamed: newTexture))
         }
-        return.animate(with: textures,timePerFrame: timeInterval)
+        
+        return .animate(with: textures, timePerFrame: baseAnimTime)
     }
     
-    public func changeAnimation(state: States? = nil,direction: Directions? = nil){
+    
+    public func changeAnimation(state: States, direction: Directions){
         
-        if isMoving {return}
         sprite.removeAllActions()
-        if direction != nil{
-            sprite.run(.repeatForever(walkingAnimation(direcao: direction!)))
-            currentDirection = direction!
-            currentState = .walking
-            return
-        }else{
-            sprite.run(.repeatForever((stateAnimation(estado: state!))))
-            currentState = state!
-            return
-        }
+        
+        setDirection(to: direction)
+        setState(to: state)
+        sprite.run(.repeatForever(getAnimation(state: state)))
     }
     
-    public func moveBy(direction: Directions){
-        changeAnimation(direction: direction)
-        isMoving = true
-        
-        var vector: CGVector{
-            switch direction{
-            case.foward:
-                return.init(dx: 0,dy: 0.2)
-            case.backward:
-                return.init(dx: 0,dy: -0.2)
-            case.left:
-                return.init(dx: -0.2,dy: 0)
-            case.right:
-                return.init(dx: 0.2,dy: 0)
-            }
-        }
-        
-        self.run(.group([
-            .move(by: vector,duration: 0.02),
-            .sequence([
-                .wait(forDuration: 0.02 + 0.01),
-                .run{
-                    self.isMoving.toggle()
-                    self.changeAnimation(state: .idle)
-                }
-            ])
-        ]))
+    public func walk(direction: Directions){
+        changeAnimation(state: .walking, direction: direction)
+        sprite.run(createMoveAnimation(direction: direction))
     }
+    
+    
+    
 }
