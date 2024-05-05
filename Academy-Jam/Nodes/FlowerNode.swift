@@ -8,15 +8,15 @@
 import Foundation
 import SpriteKit
 
-enum FlowerStates: String {
+enum MoodStates: String {
     case dead = "dead", sad, neutral, happy, veryHappy, flourished
     
-    static func getAllValues() -> Array<FlowerStates> {
+    static func getAllValues() -> Array<MoodStates> {
         return [.dead, .sad, .neutral, .happy, .veryHappy, .flourished]
     }
     
     mutating func levelUp() {
-        let allValues = FlowerStates.getAllValues()
+        let allValues = MoodStates.getAllValues()
         if self == .flourished || self == .dead {return}
         
         guard let index = allValues.firstIndex(of: self) else {return}
@@ -24,7 +24,7 @@ enum FlowerStates: String {
     }
     
     mutating func levelDown() {
-        let allValues = FlowerStates.getAllValues()
+        let allValues = MoodStates.getAllValues()
         if self == .flourished || self == .dead {return}
         
         guard let index = allValues.firstIndex(of: self) else {return}
@@ -54,10 +54,10 @@ class FlowerNode: SKNode {
             }
         }
     }
-    var state: FlowerStates
+    var state: MoodStates
     
     override init() {
-        self.sprite = .init(imageNamed: "flower_neutral")
+        self.sprite = .init(imageNamed: "flower_neutral_1")
         
 //        self.greenArea =  .init(circleOfRadius: 1)
 //        self.greenArea.fillColor = .green
@@ -66,8 +66,8 @@ class FlowerNode: SKNode {
         self.isTakingDamage = false
         self.isAlive = true
         
-        self._health = 50
-        self.healthLabel = .init(text: "50")
+        self._health = 40
+        self.healthLabel = .init(text: "40")
         self.healthLabel.position.y -= 40
         self.healthLabel.fontSize = 20
         self.healthLabel.color = .white
@@ -75,6 +75,12 @@ class FlowerNode: SKNode {
         
         self.state = .neutral
         super.init()
+        
+        let scale = 50 / self.sprite.size.width
+        self.sprite.setScale(scale)
+        
+        self.sprite.texture?.filteringMode = .nearest
+        self.sprite.run(.repeatForever(getAnimation(ofState: self.state)))
         
         self.addChild(sprite)
         self.addChild(healthLabel)
@@ -88,18 +94,20 @@ class FlowerNode: SKNode {
         
         // Se o oldValue de health for no range pra ir prum novo nível depois de tomar damage, ativar o levelDown
         switch self.health {
-        case 80..<(80+damage), 60..<(60+damage), 40..<(40+damage), 20..<(20+damage):
+        case 75..<(75+damage), 50..<(50+damage), 25..<(25+damage):
+            self.sprite.removeAllActions()
             self.state.levelDown()
-            self.sprite.texture = .init(imageNamed: "flower_\(self.state.rawValue)")
+            self.sprite.run(.repeatForever(getAnimation(ofState: self.state)))
+        case 0..<(0+damage):
+            self.sprite.removeAllActions()
+            self.isAlive = false
+            self.sprite.texture = .init(imageNamed: "flower_dead")
         default:
             break
         }
         
         self.health -= damage
         self.healthLabel.text = "\(self.health)"
-        if self.health == 0 {
-            self.isAlive = false
-        }
         
         self.run(.sequence([
             .run {
@@ -117,9 +125,10 @@ class FlowerNode: SKNode {
         
         // Se o oldValue de health for no range pra ir prum novo nível depois de somar o amount, ativar o levelUp
         switch self.health {
-        case (100-amount)..<100, (80-amount)..<80, (60-amount)..<60, (40-amount)..<40, (20-amount)..<20:
+        case (100-amount)..<100, (75-amount)..<75, (50-amount)..<50, (25-amount)..<25:
+            self.sprite.removeAllActions()
             self.state.levelUp()
-            self.sprite.texture = .init(imageNamed: "flower_\(self.state.rawValue)")
+            self.sprite.run(.repeatForever(getAnimation(ofState: self.state)))
         default:
             break
         }
@@ -138,6 +147,16 @@ class FlowerNode: SKNode {
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.heal()
+    }
+    
+    private func getAnimation(ofState state: MoodStates) -> SKAction {
+        var textures: Array<SKTexture> = []
+        for i in 1...4 {
+            let texture: SKTexture = .init(imageNamed: "flower_\(state.rawValue)_\(i)")
+            texture.filteringMode = .nearest
+            textures.append(texture)
+        }
+        return .animate(with: textures, timePerFrame: 1/4)
     }
     
     required init?(coder aDecoder: NSCoder) {
