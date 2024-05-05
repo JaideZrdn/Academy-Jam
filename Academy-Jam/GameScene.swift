@@ -47,15 +47,19 @@ class GameScene: SKScene {
         let spawnAction: SKAction = .sequence([
             .run {
                 if self.monsters.count < 15 {
-                    let monster = MonsterNode()
-                    monster.spawn()
-                    self.addChild(monster)
-                    self.monsters.append(monster)
+                    self.addMonster()
                 }
             },
-            .wait(forDuration: .init(.random(in: 10...20)/10))
+            .wait(forDuration: .init(.random(in: 15...25)/10))
         ])
         
         self.run(.repeatForever(spawnAction))
+    }
+    
+    private func addMonster() {
+        let monster = MonsterNode()
+        self.monsters.append(monster)
+        monster.spawn()
+        self.addChild(monster)
     }
 }
