@@ -99,7 +99,7 @@ class GameScene: SKScene {
         buttonAttacking.zPosition = 10
         
         buttonAttacking.setActionBegin {
-            self.jardineiro.attacking()
+            self.jardineiro.attacking(monsters: &self.monsters)
         }
         buttonAttacking.setActionEnd {
             self.jardineiro.idle()
