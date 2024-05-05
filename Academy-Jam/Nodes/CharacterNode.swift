@@ -8,6 +8,14 @@
 import Foundation
 import SpriteKit
 
+enum PhysicsCategory: UInt32 {
+    case None = 0
+    case Player = 1
+    case Monster = 2
+    case Attack = 4
+    
+}
+
 enum Directions: String{
     case up, down, left, right
 }
@@ -93,6 +101,37 @@ class Gardener: SKNode {
     
     public func attacking(){
         changeAnimation(state: .attacking, direction: self.currentDirection)
+        let attackRange = SKNode()
+        attackRange.name = "attackRange"
+        
+        switch self.currentDirection {
+        case .up:
+            attackRange.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 10, height: 32))
+            attackRange.position = CGPoint(x: 0, y: self.position.y / 2)
+        case .down:
+            attackRange.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 10, height: -32))
+            attackRange.position = CGPoint(x: 0, y: -self.position.y / 2)
+        case .left:
+            attackRange.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: -32, height: 10))
+            attackRange.position = CGPoint(x: -self.position.x / 2, y: 0)
+        case .right:
+            attackRange.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 32, height: 10))
+            attackRange.position = CGPoint(x: self.position.x / 2, y: 0)
+        }
+        
+        attackRange.physicsBody!.isDynamic = false
+        attackRange.physicsBody!.categoryBitMask = PhysicsCategory.Attack.rawValue
+        attackRange.physicsBody!.collisionBitMask = PhysicsCategory.Player.rawValue
+        
+        self.addChild(attackRange)
+        
+        let attackDuration = TimeInterval(0.8)
+        let waitAction = SKAction.wait(forDuration: attackDuration)
+        let removeAttackAction = SKAction.removeFromParent()
+        let attackSequence = SKAction.sequence([waitAction, removeAttackAction])
+        self.run(attackSequence)
+        
+        
     }
     
     public func idle(){
