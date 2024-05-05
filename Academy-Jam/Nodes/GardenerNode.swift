@@ -87,6 +87,7 @@ class Gardener: SKNode {
     
     public func changeAnimation(state: States, direction: Directions){
         
+        self.removeAllActions()
         sprite.removeAllActions()
         
         setDirection(to: direction)
@@ -104,7 +105,7 @@ class Gardener: SKNode {
         
         self.position = .init(x: flower.position.x, y: flower.position.y + 50)
         
-        let cureAction = SKAction.sequence([.wait(forDuration: 1), .run {
+        let cureAction = SKAction.sequence([.wait(forDuration: 3), .run {
             flower.heal(amount: 10)
         }])
         

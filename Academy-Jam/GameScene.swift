@@ -17,7 +17,7 @@ class GameScene: SKScene {
     var buttonRight = PressButtonNode(name: "rightButton")
     var buttonUp = PressButtonNode(name: "upButton")
     var buttonDown = PressButtonNode(name: "downButton")
-    var buttonWatering = ToggleButtonNode(name: "wateringButton")
+    var buttonWatering = PressButtonNode(name: "wateringButton")
     var buttonAttacking = ToggleButtonNode(name: "attackingButton")
     
     override func didMove(to view: SKView) {
