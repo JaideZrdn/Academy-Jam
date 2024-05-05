@@ -37,8 +37,9 @@ class MonsterNode: SKNode {
     init(ofType monster: Monsters? = nil) {
         // TODO: Later integrate assets
         self.monsterType = monster ?? .random()
-        self.sprite = .init(imageNamed: "\(monsterType.rawValue) 1")
-        
+        //self.sprite = .init(imageNamed: "\(monsterType.rawValue) 1")
+        // FIXME: Temporary
+        self.sprite = .init(color: .brown, size: .init(width: 30, height: 30))
         
         super.init()
     }
@@ -57,7 +58,14 @@ class MonsterNode: SKNode {
         let point: CGPoint = _point ?? .randomInCircumference(ofRadius: 300)
         self.position = point
         self.run(.repeatForever(walkingAnimation()))
-        let distanceToCenter = pow(self.position.x, 2)
+        
+        // Walking to Center
+        let distanceToCenter = sqrt(pow(self.position.x, 2) + pow(self.position.y, 2))
+        let velocity: CGFloat = .random(in: 40...50)
+        let timeToCenter = distanceToCenter/velocity
+        let moveAction = SKAction.move(to: .zero, duration: timeToCenter)
+
+        self.run(moveAction)
     }
     
     func die() {
