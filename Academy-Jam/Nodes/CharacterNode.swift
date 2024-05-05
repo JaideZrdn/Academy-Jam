@@ -9,7 +9,7 @@ import Foundation
 import SpriteKit
 
 enum Directions: String{
-    case forward, backward, left, right
+    case up, down, left, right
 }
 
 enum States: String{
@@ -40,9 +40,9 @@ class Gardener: SKNode {
     private func createMoveAnimation(direction: Directions) -> SKAction{
         let vector: CGVector
         switch direction{
-        case .forward:
+        case .up:
             vector = .init(dx: 0, dy: velocity)
-        case .backward:
+        case .down:
             vector = .init(dx: 0, dy: -velocity)
         case .right:
             vector = .init(dx: velocity, dy: 0)
@@ -87,6 +87,16 @@ class Gardener: SKNode {
         sprite.run(createMoveAnimation(direction: direction))
     }
     
+    public func watering(){
+        changeAnimation(state: .watering, direction: .down)
+    }
     
+    public func attacking(){
+        changeAnimation(state: .attacking, direction: self.currentDirection)
+    }
+    
+    public func idle(){
+        changeAnimation(state: .idle, direction: self.currentDirection)
+    }
     
 }
