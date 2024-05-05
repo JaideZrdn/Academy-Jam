@@ -50,8 +50,6 @@ class MonsterNode: SKNode, SKPhysicsContactDelegate {
         self.physicsBody!.contactTestBitMask = PhysicsCategory.Player.rawValue | PhysicsCategory.Attack.rawValue
         self.physicsBody!.collisionBitMask = PhysicsCategory.None.rawValue
         self.physicsBody!.usesPreciseCollisionDetection = true
-        
-        self.addChild(sprite)
     }
     
     required init?(coder aDecoder: NSCoder) {
