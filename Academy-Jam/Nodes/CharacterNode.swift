@@ -8,8 +8,16 @@
 import Foundation
 import SpriteKit
 
+enum PhysicsCategory: UInt32 {
+    case None = 0
+    case Player = 1
+    case Monster = 2
+    case Attack = 4
+    
+}
+
 enum Directions: String{
-    case forward, backward, left, right
+    case up, down, left, right
 }
 
 enum States: String{
@@ -40,9 +48,9 @@ class Gardener: SKNode {
     private func createMoveAnimation(direction: Directions) -> SKAction{
         let vector: CGVector
         switch direction{
-        case .forward:
+        case .up:
             vector = .init(dx: 0, dy: velocity)
-        case .backward:
+        case .down:
             vector = .init(dx: 0, dy: -velocity)
         case .right:
             vector = .init(dx: velocity, dy: 0)
@@ -65,7 +73,7 @@ class Gardener: SKNode {
         var textures: [SKTexture] = []
         
         for index in 1...4 {
-            let newTexture = "\(self.name!)_\(state.rawValue)_\(currentDirection.rawValue)"
+            let newTexture = "\(self.name!)_\(state.rawValue)_\(currentDirection.rawValue)_\(index)"
             textures.append(.init(imageNamed: newTexture))
         }
         
@@ -87,6 +95,54 @@ class Gardener: SKNode {
         sprite.run(createMoveAnimation(direction: direction))
     }
     
+    public func watering(flower: FlowerNode){
+        changeAnimation(state: .watering, direction: .down)
+        
+        self.position = .init(x: flower.position.x, y: flower.position.y + 50)
+        
+        let cureAction = SKAction.sequence([.wait(forDuration: 1), .run {
+            flower.heal(amount: 10)
+        }])
+        
+        self.run(.repeatForever(cureAction))
+    }
     
+    public func attacking(){
+        changeAnimation(state: .attacking, direction: self.currentDirection)
+        let attackRange = SKNode()
+        attackRange.name = "attackRange"
+        
+        switch self.currentDirection {
+        case .up:
+            attackRange.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 10, height: 32))
+            attackRange.position = CGPoint(x: 0, y: self.position.y / 2)
+        case .down:
+            attackRange.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 10, height: -32))
+            attackRange.position = CGPoint(x: 0, y: -self.position.y / 2)
+        case .left:
+            attackRange.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: -32, height: 10))
+            attackRange.position = CGPoint(x: -self.position.x / 2, y: 0)
+        case .right:
+            attackRange.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 32, height: 10))
+            attackRange.position = CGPoint(x: self.position.x / 2, y: 0)
+        }
+        
+        attackRange.physicsBody!.isDynamic = false
+        attackRange.physicsBody!.categoryBitMask = PhysicsCategory.Attack.rawValue
+        
+        self.addChild(attackRange)
+        
+        let attackDuration = TimeInterval(0.8)
+        let waitAction = SKAction.wait(forDuration: attackDuration)
+        let removeAttackAction = SKAction.removeFromParent()
+        let attackSequence = SKAction.sequence([waitAction, removeAttackAction])
+        self.run(attackSequence)
+        
+        
+    }
+    
+    public func idle(){
+        changeAnimation(state: .idle, direction: self.currentDirection)
+    }
     
 }
