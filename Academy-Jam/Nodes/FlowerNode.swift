@@ -57,8 +57,8 @@ class FlowerNode: SKNode {
     
     func enlargeGreenArea(by factor: CGFloat = 1.5, duration: CGFloat) {
         self.greenArea.run(.scale(by: factor, duration: duration))
-        // TODO: Nao sei como consertar
-        print("Radius: \(self.greenArea.path!)")
+//        // TODO: Nao sei como consertar
+//        print("Radius: \(self.greenArea.path!)")
     }
     
     required init?(coder aDecoder: NSCoder) {
