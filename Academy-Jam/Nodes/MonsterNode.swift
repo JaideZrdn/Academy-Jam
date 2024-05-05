@@ -47,9 +47,7 @@ class MonsterNode: SKNode, SKPhysicsContactDelegate {
         self.physicsBody = SKPhysicsBody(circleOfRadius: self.sprite.size.width / 2)
         self.physicsBody!.isDynamic = true
         self.physicsBody!.categoryBitMask = PhysicsCategory.Monster.rawValue
-        self.physicsBody!.contactTestBitMask = PhysicsCategory.Player.rawValue | PhysicsCategory.Attack.rawValue
-        self.physicsBody!.collisionBitMask = PhysicsCategory.None.rawValue
-        self.physicsBody!.usesPreciseCollisionDetection = true
+        self.physicsBody!.collisionBitMask = PhysicsCategory.Attack.rawValue
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -93,11 +91,12 @@ class MonsterNode: SKNode, SKPhysicsContactDelegate {
     }
     
     func didBegin(_ contact: SKPhysicsContact) {
-        let otherCategory = contact.bodyA.categoryBitMask == PhysicsCategory.Attack.rawValue ? contact.bodyA.categoryBitMask : contact.bodyB.categoryBitMask
+        let categoryA = contact.bodyA.categoryBitMask
+        let categoryB = contact.bodyB.categoryBitMask
         
-        if otherCategory == PhysicsCategory.Attack.rawValue {
+        if categoryA == PhysicsCategory.Attack.rawValue || categoryB == PhysicsCategory.Attack.rawValue {
+            // A colisão ocorreu com a categoria Attack
             self.die()
         }
-        
     }
 }

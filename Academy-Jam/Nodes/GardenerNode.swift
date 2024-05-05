@@ -112,40 +112,34 @@ class Gardener: SKNode {
         self.run(.repeatForever(cureAction))
     }
     
-    public func attacking(){
+    public func attacking( monsters: inout [MonsterNode]){
         changeAnimation(state: .atacking, direction: self.currentDirection)
-        let attackRange = SKNode()
-        attackRange.name = "attackRange"
+        var deslocVert: CGFloat = 0
+        var deslocHor: CGFloat = 0
         
-        switch self.currentDirection {
+        switch currentDirection {
         case .up:
-            attackRange.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 10, height: 32))
-            attackRange.position = CGPoint(x: 0, y: self.position.y / 2)
+            deslocVert = +64
         case .down:
-            attackRange.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 10, height: -32))
-            attackRange.position = CGPoint(x: 0, y: -self.position.y / 2)
+            deslocVert = -64
         case .left:
-            attackRange.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: -32, height: 10))
-            attackRange.position = CGPoint(x: -self.position.x / 2, y: 0)
+            deslocHor = -64
         case .right:
-            attackRange.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 32, height: 10))
-            attackRange.position = CGPoint(x: self.position.x / 2, y: 0)
+            deslocHor = 64
         }
         
-        attackRange.physicsBody!.isDynamic = false
-        attackRange.physicsBody!.categoryBitMask = PhysicsCategory.Attack.rawValue
+        let attackNode = SKSpriteNode(color: .clear, size: .init(width: self.sprite.size.width*1.3, height: self.sprite.size.height*1.3))
+        attackNode.position = .init(x: self.sprite.position.x + deslocHor, y: self.sprite.position.y + deslocVert)
         
-        self.addChild(attackRange)
-        
-        let attackDuration = TimeInterval(0.8)
-        let waitAction = SKAction.wait(forDuration: attackDuration)
-        let removeAttackAction = SKAction.run {
-            attackRange.removeFromParent()
+        for index in 0..<monsters.count {
+            if attackNode.contains(.init(x: monsters[index].position.x , y: monsters[index].position.y )) {
+                monsters[index].die()
+                monsters.remove(at: index)
+                attackNode.removeFromParent()
+                return
+            }
         }
-        let attackSequence = SKAction.sequence([waitAction, removeAttackAction])
-        self.run(attackSequence)
-        
-        
+        attackNode.removeFromParent()
     }
     
     public func idle(){
