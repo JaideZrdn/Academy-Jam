@@ -14,12 +14,12 @@ class GameScene: SKScene {
     let flower: FlowerNode = .init()
     var monsters: Array<MonsterNode> = []
     var jardineiro = Gardener(baseSprite: "jardineiro")
-    var buttonLeft = PressButtonNode(name: "leftButton")
-    var buttonRight = PressButtonNode(name: "rightButton")
-    var buttonUp = PressButtonNode(name: "upButton")
-    var buttonDown = PressButtonNode(name: "downButton")
-    var buttonWatering = PressButtonNode(name: "wateringButton")
-    var buttonAttacking = ActionButtonNode(name: "attackingButton")
+    var buttonLeft = PressButtonNode(name: "left")
+    var buttonRight = PressButtonNode(name: "right")
+    var buttonUp = PressButtonNode(name: "up")
+    var buttonDown = PressButtonNode(name: "down")
+    var buttonWatering = PressButtonNode(name: "Botao regar")
+    var buttonAttacking = ActionButtonNode(name: "Botao ataque")
     
     override func didMove(to view: SKView) {
         spawnMonsterCycle()
