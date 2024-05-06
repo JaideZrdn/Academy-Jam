@@ -15,6 +15,8 @@
 		64FC61422BE6B8F400AE602C /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 64FC61412BE6B8F400AE602C /* Base */; };
 		64FC614E2BE6D0E200AE602C /* GardenerNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64FC614D2BE6D0E200AE602C /* GardenerNode.swift */; };
 		64FC61542BE8213F00AE602C /* ButtonNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64FC61532BE8213F00AE602C /* ButtonNode.swift */; };
+		64FC615A2BE8684000AE602C /* WinScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64FC61592BE8684000AE602C /* WinScene.swift */; };
+		64FC615C2BE86A5400AE602C /* LoseScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64FC615B2BE86A5400AE602C /* LoseScene.swift */; };
 		A0BA3B7D2BE6C3AC005F5558 /* FlowerNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0BA3B7C2BE6C3AC005F5558 /* FlowerNode.swift */; };
 		A0BA3B7F2BE7038E005F5558 /* MonsterNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0BA3B7E2BE7038E005F5558 /* MonsterNode.swift */; };
 		CFED2D132BE6CC2F007B836C /* GameOver.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFED2D122BE6CC2F007B836C /* GameOver.swift */; };
@@ -30,6 +32,8 @@
 		64FC61412BE6B8F400AE602C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		64FC614D2BE6D0E200AE602C /* GardenerNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GardenerNode.swift; sourceTree = "<group>"; };
 		64FC61532BE8213F00AE602C /* ButtonNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonNode.swift; sourceTree = "<group>"; };
+		64FC61592BE8684000AE602C /* WinScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WinScene.swift; sourceTree = "<group>"; };
+		64FC615B2BE86A5400AE602C /* LoseScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoseScene.swift; sourceTree = "<group>"; };
 		A0BA3B7C2BE6C3AC005F5558 /* FlowerNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowerNode.swift; sourceTree = "<group>"; };
 		A0BA3B7E2BE7038E005F5558 /* MonsterNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonsterNode.swift; sourceTree = "<group>"; };
 		CFED2D122BE6CC2F007B836C /* GameOver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameOver.swift; sourceTree = "<group>"; };
@@ -73,6 +77,8 @@
 				64FC613B2BE6B8F300AE602C /* Main.storyboard */,
 				64FC613E2BE6B8F400AE602C /* Assets.xcassets */,
 				64FC61402BE6B8F400AE602C /* LaunchScreen.storyboard */,
+				64FC61592BE8684000AE602C /* WinScene.swift */,
+				64FC615B2BE86A5400AE602C /* LoseScene.swift */,
 			);
 			path = "Academy-Jam";
 			sourceTree = "<group>";
@@ -162,11 +168,13 @@
 				64FC614E2BE6D0E200AE602C /* GardenerNode.swift in Sources */,
 				A0BA3B7D2BE6C3AC005F5558 /* FlowerNode.swift in Sources */,
 				64FC61382BE6B8F300AE602C /* GameScene.swift in Sources */,
+				64FC615A2BE8684000AE602C /* WinScene.swift in Sources */,
 				64FC613A2BE6B8F300AE602C /* GameViewController.swift in Sources */,
 				CFED2D132BE6CC2F007B836C /* GameOver.swift in Sources */,
 				64FC61542BE8213F00AE602C /* ButtonNode.swift in Sources */,
 				64FC61322BE6B8F300AE602C /* AppDelegate.swift in Sources */,
 				A0BA3B7F2BE7038E005F5558 /* MonsterNode.swift in Sources */,
+				64FC615C2BE86A5400AE602C /* LoseScene.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
