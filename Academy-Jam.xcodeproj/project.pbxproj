@@ -17,6 +17,7 @@
 		64FC61542BE8213F00AE602C /* ButtonNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64FC61532BE8213F00AE602C /* ButtonNode.swift */; };
 		A0BA3B7D2BE6C3AC005F5558 /* FlowerNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0BA3B7C2BE6C3AC005F5558 /* FlowerNode.swift */; };
 		A0BA3B7F2BE7038E005F5558 /* MonsterNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0BA3B7E2BE7038E005F5558 /* MonsterNode.swift */; };
+		A0BA3B832BE86482005F5558 /* BackgroundNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0BA3B822BE86482005F5558 /* BackgroundNode.swift */; };
 		CFED2D132BE6CC2F007B836C /* GameOver.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFED2D122BE6CC2F007B836C /* GameOver.swift */; };
 /* End PBXBuildFile section */
 
@@ -32,6 +33,7 @@
 		64FC61532BE8213F00AE602C /* ButtonNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonNode.swift; sourceTree = "<group>"; };
 		A0BA3B7C2BE6C3AC005F5558 /* FlowerNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowerNode.swift; sourceTree = "<group>"; };
 		A0BA3B7E2BE7038E005F5558 /* MonsterNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonsterNode.swift; sourceTree = "<group>"; };
+		A0BA3B822BE86482005F5558 /* BackgroundNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundNode.swift; sourceTree = "<group>"; };
 		CFED2D122BE6CC2F007B836C /* GameOver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameOver.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -84,6 +86,7 @@
 				64FC614D2BE6D0E200AE602C /* GardenerNode.swift */,
 				A0BA3B7E2BE7038E005F5558 /* MonsterNode.swift */,
 				64FC61532BE8213F00AE602C /* ButtonNode.swift */,
+				A0BA3B822BE86482005F5558 /* BackgroundNode.swift */,
 			);
 			path = Nodes;
 			sourceTree = "<group>";
@@ -159,6 +162,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A0BA3B832BE86482005F5558 /* BackgroundNode.swift in Sources */,
 				64FC614E2BE6D0E200AE602C /* GardenerNode.swift in Sources */,
 				A0BA3B7D2BE6C3AC005F5558 /* FlowerNode.swift in Sources */,
 				64FC61382BE6B8F300AE602C /* GameScene.swift in Sources */,
