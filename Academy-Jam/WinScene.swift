@@ -1,0 +1,41 @@
+//
+//  WinScene.swift
+//  Academy-Jam
+//
+//  Created by Jaide Zardin on 05/05/24.
+//
+
+import Foundation
+import SpriteKit
+
+class WinScene: SKScene {
+    
+    var botaoTryAgain = ActionButtonNode(name: "try again")
+    
+    override func didMove(to view: SKView) {
+        addChild(botaoTryAgain)
+        addChild(SKSpriteNode(imageNamed:"Gamewin"))
+        setupButtons()
+    }
+    
+    func setupButtons(){
+
+        
+        botaoTryAgain.setActionBegin {
+            let content = GameScene()
+            self.transitionToScene(scene: content)
+        }
+        
+        botaoTryAgain.zPosition = 100
+    }
+    
+    func transitionToScene(scene: SKScene, transition: SKTransition? = nil){
+        if let view = self.view{
+            let sceneTo = scene
+            sceneTo.scaleMode = .aspectFit
+            sceneTo.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+            view.presentScene(sceneTo, transition: transition!)
+        }
+    }
+    
+}
