@@ -49,15 +49,7 @@ class GameScene: SKScene {
     
     override func update(_ currentTime: TimeInterval) {
         
-        if flower.state == MoodStates.flourished{
-            let winscene = WinScene()
-            self.transitionToScene(scene: winscene)
-        }
         
-        if flower.state == MoodStates.dead{
-            let dead = WinScene()
-            self.transitionToScene(scene: dead)
-        }
         
         if !flower.isTakingDamage {
             for i in 0..<monsters.count {
@@ -66,6 +58,17 @@ class GameScene: SKScene {
                 }
             }
         }
+        
+        if flower.health == 100 {
+            let winscene = WinScene()
+            self.transitionToScene(scene: winscene)
+        }
+        
+        if flower.health == 0 {
+            let dead = WinScene()
+            self.transitionToScene(scene: dead)
+        }
+        
         if flower.sprite.contains(CGPoint(x: jardineiro.sprite.position.x, y: jardineiro.sprite.position.y+10)) {
             buttonWatering.toggleUserInteraction(to: true)
         } else {
@@ -100,17 +103,17 @@ class GameScene: SKScene {
             let sceneTo = scene
             sceneTo.scaleMode = .aspectFit
             sceneTo.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-            view.presentScene(sceneTo, transition: transition!)
+            view.presentScene(sceneTo, transition: transition ?? .crossFade(withDuration: 1))
         }
     }
     
     func configButton(){
-        buttonUp.position = .init(x: -300, y: 0)
-        buttonDown.position = .init(x: buttonUp.position.x, y: buttonUp.position.y-70)
-        buttonLeft.position = .init(x: buttonUp.position.x-35, y: buttonUp.position.y-35)
-        buttonRight.position = .init(x: buttonUp.position.x+35, y: buttonLeft.position.y)
-        buttonWatering.position = .init(x: -180, y: 100)
-        buttonAttacking.position = .init(x: 80, y: 0)
+        buttonUp.position = .init(x: -300, y: -50)
+        buttonDown.position = .init(x: buttonUp.position.x, y: buttonUp.position.y-100)
+        buttonLeft.position = .init(x: buttonUp.position.x-50, y: buttonUp.position.y-50)
+        buttonRight.position = .init(x: buttonUp.position.x+50, y: buttonLeft.position.y)
+        buttonWatering.position = .init(x: 300, y: -80)
+        buttonAttacking.position = .init(x: 200, y: -120)
         
         buttonUp.zPosition = 10
         buttonDown.zPosition = 10

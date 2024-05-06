@@ -34,7 +34,7 @@ class WinScene: SKScene {
             let sceneTo = scene
             sceneTo.scaleMode = .aspectFit
             sceneTo.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-            view.presentScene(sceneTo, transition: transition!)
+            view.presentScene(sceneTo, transition: transition ?? .crossFade(withDuration: 1))
         }
     }
     
