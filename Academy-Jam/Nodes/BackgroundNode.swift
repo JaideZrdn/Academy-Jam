@@ -22,6 +22,11 @@ class BackgroundNode: SKNode {
         self.state = .neutral
         super.init()
         
+        let desiredWidth: CGFloat = UIScreen.main.bounds.width
+        let scale = desiredWidth/self.sprite.size.width
+        sprite.setScale(scale)
+        helperSprite.setScale(scale)
+        
         sprite.zPosition = -1
         helperSprite.zPosition = -0.9
         

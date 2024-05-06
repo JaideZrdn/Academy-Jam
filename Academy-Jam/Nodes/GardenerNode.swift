@@ -100,13 +100,13 @@ class Gardener: SKNode {
         sprite.run(createMoveAnimation(direction: direction))
     }
     
-    public func watering(flower: FlowerNode){
+    public func watering(flower: FlowerNode, background: BackgroundNode){
         changeAnimation(state: .watering, direction: .down)
         
         self.position = .init(x: flower.position.x, y: flower.position.y + 50)
         
         let cureAction = SKAction.sequence([.wait(forDuration: 3), .run {
-            flower.heal(amount: 10)
+            flower.heal(background: background, amount: 10)
         }])
         
         self.run(.repeatForever(cureAction))
