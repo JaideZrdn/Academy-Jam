@@ -33,37 +33,38 @@ enum MoodStates: String {
 
 }
 
-class BackgroundNode: SKNode {
-    let sprite: SKSpriteNode
-    var state: MoodStates = .neutral
-    var index = 2
-    var flower: FlowerNode
-    
-    init(flower: FlowerNode) {
-        self.flower = flower
-        self.sprite = SKSpriteNode(imageNamed: "Background_2")
-        self.sprite.setScale(0.45)
-        super.init()
-        self.addChild(self.sprite)
-        self.zPosition = -500
-    }
-    
-    func updateBackground(){
-        let allMood = MoodStates.getAllValues()
-        index = allMood.firstIndex(of: flower.state)!
-        self.sprite.run(.setTexture(.init(imageNamed: "Background_\(index)")))
-    }
-    
-    
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
+//class FlowerNode: SKNode {
+//    let sprite: SKSpriteNode
+//    var state: MoodStates = .neutral
+//    var index = 2
+//    var flower: FlowerNode
+//    
+//    init(flower: FlowerNode) {
+//        self.flower = flower
+//        self.sprite = SKSpriteNode(imageNamed: "Background_2")
+//        self.sprite.setScale(0.45)
+//        super.init()
+//        self.addChild(self.sprite)
+//        self.zPosition = -500
+//    }
+//    
+//    func updateBackground(){
+//        let allMood = MoodStates.getAllValues()
+//        index = allMood.firstIndex(of: flower.state)!
+//        self.sprite.run(.setTexture(.init(imageNamed: "Background_\(index)")))
+//    }
+//    
+//    
+//    
+//    required init?(coder aDecoder: NSCoder) {
+//        fatalError("init(coder:) has not been implemented")
+//    }
+//}
 
 class FlowerNode: SKNode {
     let sprite: SKSpriteNode
     let healthLabel: SKLabelNode
+//    let background: BackgroundNode
 //    let greenArea: SKShapeNode
     
     public var isTakingDamage: Bool
@@ -85,6 +86,7 @@ class FlowerNode: SKNode {
     var state: MoodStates
     
     override init() {
+//        self.background = /*background*/
         self.sprite = .init(imageNamed: "flower_neutral_1")
         
 //        self.greenArea =  .init(circleOfRadius: 1)
@@ -117,7 +119,7 @@ class FlowerNode: SKNode {
         isUserInteractionEnabled = true
     }
     
-    func takeDamage(damage: Int = 8) {
+    func takeDamage(background: BackgroundNode, damage: Int = 8) {
         if !isAlive {return}
         
         // Se o oldValue de health for no range pra ir prum novo nível depois de tomar damage, ativar o levelDown
@@ -125,6 +127,7 @@ class FlowerNode: SKNode {
         case 75..<(75+damage), 50..<(50+damage), 25..<(25+damage):
             self.sprite.removeAllActions()
             self.state.levelDown()
+            background.transitionDown()
             self.sprite.run(.repeatForever(getAnimation(ofState: self.state)))
         case 0..<(0+damage):
             self.sprite.removeAllActions()
@@ -148,7 +151,7 @@ class FlowerNode: SKNode {
         ]))
     }
     
-    func heal(amount: Int = 2) {
+    func heal(background: BackgroundNode, amount: Int = 2) {
         if !isAlive {return}
         
         // Se o oldValue de health for no range pra ir prum novo nível depois de somar o amount, ativar o levelUp
@@ -156,6 +159,7 @@ class FlowerNode: SKNode {
         case (100-amount)..<100, (75-amount)..<75, (50-amount)..<50, (25-amount)..<25:
             self.sprite.removeAllActions()
             self.state.levelUp()
+            background.transitionUp()
             self.sprite.run(.repeatForever(getAnimation(ofState: self.state)))
         default:
             break
@@ -173,9 +177,9 @@ class FlowerNode: SKNode {
     }
      */
     
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        self.heal()
-    }
+//    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+//        self.heal(background: background)
+//    }
     
     private func getAnimation(ofState state: MoodStates) -> SKAction {
         var textures: Array<SKTexture> = []

@@ -10,7 +10,7 @@ import GameplayKit
 
 class GameScene: SKScene {
     
-    var background: BackgroundNode?
+    var background = BackgroundNode()
     let flower: FlowerNode = .init()
     var monsters: Array<MonsterNode> = []
     var jardineiro = Gardener(baseSprite: "jardineiro")
@@ -26,11 +26,11 @@ class GameScene: SKScene {
     }
     
     override func sceneDidLoad() {
-        background = BackgroundNode(flower: flower)
+        
         configButton()
         addChild(flower)
         addChild(jardineiro)
-        addChild(background!)
+        addChild(background)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -49,20 +49,16 @@ class GameScene: SKScene {
     
     override func update(_ currentTime: TimeInterval) {
         if !flower.isTakingDamage {
-            background?.updateBackground()
             for i in 0..<monsters.count {
                 if flower.contains(monsters[i].position) {
-                    flower.takeDamage()
-                    background?.updateBackground()
+                    flower.takeDamage(background: self.background)
                 }
             }
         }
         if flower.sprite.contains(CGPoint(x: jardineiro.sprite.position.x, y: jardineiro.sprite.position.y+10)) {
             buttonWatering.toggleUserInteraction(to: true)
-            print("ta dentro")
         } else {
             buttonWatering.toggleUserInteraction(to: false)
-            print("ta fora")
         }
     
     }
@@ -139,7 +135,7 @@ class GameScene: SKScene {
         }
         
         buttonWatering.setActionBegin {
-            self.jardineiro.watering(flower: self.flower)
+            self.jardineiro.watering(flower: self.flower, background: self.background)
         }
         buttonWatering.setActionEnd {
             self.jardineiro.idle()
