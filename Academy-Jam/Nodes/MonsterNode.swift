@@ -60,6 +60,7 @@ class MonsterNode: SKNode, SKPhysicsContactDelegate {
         var textures: [SKTexture] = []
         for index in 1...4{
             let texture: SKTexture = .init(imageNamed: "worm\(index)")
+            texture.filteringMode = .nearest
             textures.append(texture)
         }
         return .animate(with: textures, timePerFrame: 0.2)
