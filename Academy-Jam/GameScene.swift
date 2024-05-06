@@ -65,7 +65,7 @@ class GameScene: SKScene {
         }
         
         if flower.health == 0 {
-            let dead = WinScene()
+            let dead = LoseScene()
             self.transitionToScene(scene: dead)
         }
         
@@ -101,8 +101,6 @@ class GameScene: SKScene {
     func transitionToScene(scene: SKScene, transition: SKTransition? = nil){
         if let view = self.view{
             let sceneTo = scene
-            sceneTo.scaleMode = .aspectFit
-            sceneTo.anchorPoint = CGPoint(x: 0.5, y: 0.5)
             view.presentScene(sceneTo, transition: transition ?? .crossFade(withDuration: 1))
         }
     }

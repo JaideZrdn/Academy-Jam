@@ -33,7 +33,6 @@ class LoseScene: SKScene {
         if let view = self.view{
             let sceneTo = scene
             sceneTo.scaleMode = .aspectFit
-            sceneTo.anchorPoint = CGPoint(x: 0.5, y: 0.5)
             view.presentScene(sceneTo, transition: transition!)
         }
     }
