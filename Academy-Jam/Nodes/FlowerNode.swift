@@ -132,7 +132,11 @@ class FlowerNode: SKNode {
         case 0..<(0+damage):
             self.sprite.removeAllActions()
             self.isAlive = false
-            self.sprite.texture = .init(imageNamed: "flower_dead")
+            let texture: SKTexture = .init(imageNamed: "flower_dead")
+            
+            self.sprite.texture?.filteringMode = .nearest
+            
+            
         default:
             break
         }

@@ -19,6 +19,10 @@ class ButtonNode: SKNode {
         self.sprite = .init(imageNamed: name)
         self.sprite.alpha = 0.6
         super.init()
+        
+        let scale = 60 / self.sprite.size.width
+        self.sprite.setScale(scale)
+        self.sprite.texture?.filteringMode = .nearest
         self.name = name
         
         isUserInteractionEnabled = true
