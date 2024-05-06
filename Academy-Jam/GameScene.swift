@@ -48,6 +48,17 @@ class GameScene: SKScene {
     }
     
     override func update(_ currentTime: TimeInterval) {
+        
+        if flower.state == MoodStates.flourished{
+            let winscene = WinScene()
+            self.transitionToScene(scene: winscene)
+        }
+        
+        if flower.state == MoodStates.dead{
+            let dead = WinScene()
+            self.transitionToScene(scene: dead)
+        }
+        
         if !flower.isTakingDamage {
             for i in 0..<monsters.count {
                 if flower.contains(monsters[i].position) {
@@ -82,6 +93,15 @@ class GameScene: SKScene {
         monster.zPosition = 5
         monster.spawn()
         self.addChild(monster)
+    }
+    
+    func transitionToScene(scene: SKScene, transition: SKTransition? = nil){
+        if let view = self.view{
+            let sceneTo = scene
+            sceneTo.scaleMode = .aspectFit
+            sceneTo.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+            view.presentScene(sceneTo, transition: transition!)
+        }
     }
     
     func configButton(){
