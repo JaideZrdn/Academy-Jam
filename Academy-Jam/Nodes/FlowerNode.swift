@@ -33,6 +33,34 @@ enum MoodStates: String {
 
 }
 
+class BackgroundNode: SKNode {
+    let sprite: SKSpriteNode
+    var state: MoodStates = .neutral
+    var index = 2
+    var flower: FlowerNode
+    
+    init(flower: FlowerNode) {
+        self.flower = flower
+        self.sprite = SKSpriteNode(imageNamed: "Background_2")
+        self.sprite.setScale(0.45)
+        super.init()
+        self.addChild(self.sprite)
+        self.zPosition = -500
+    }
+    
+    func updateBackground(){
+        let allMood = MoodStates.getAllValues()
+        index = allMood.firstIndex(of: flower.state)!
+        self.sprite.run(.setTexture(.init(imageNamed: "Background_\(index)")))
+    }
+    
+    
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
 class FlowerNode: SKNode {
     let sprite: SKSpriteNode
     let healthLabel: SKLabelNode

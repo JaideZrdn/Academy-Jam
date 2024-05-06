@@ -33,14 +33,16 @@ enum Monsters: String {
 class MonsterNode: SKNode, SKPhysicsContactDelegate {
     let sprite: SKSpriteNode
     let monsterType: Monsters
+    let flower: FlowerNode
     
-    init(ofType monster: Monsters? = nil) {
-        
+    init(ofType monster: Monsters? = nil, flower: FlowerNode) {
+        self.flower = flower
         // TODO: Later integrate assets
         self.monsterType = monster ?? .random()
         //self.sprite = .init(imageNamed: "\(monsterType.rawValue) 1")
         // FIXME: Temporary
-        self.sprite = .init(color: .brown, size: .init(width: 30, height: 30))
+        self.sprite = .init(imageNamed: "worm1")
+        self.sprite.setScale(2)
         
         super.init()
         
@@ -55,8 +57,12 @@ class MonsterNode: SKNode, SKPhysicsContactDelegate {
     }
     
     private func walkingAnimation() -> SKAction {
-        // FIXME: Temporary
-        return .rotate(byAngle: 1, duration: 0.5)
+        var textures: [SKTexture] = []
+        for index in 1...4{
+            let texture: SKTexture = .init(imageNamed: "worm\(index)")
+            textures.append(texture)
+        }
+        return .animate(with: textures, timePerFrame: 0.2)
     }
     
     private func dyingAnimation() -> SKAction {
@@ -67,13 +73,13 @@ class MonsterNode: SKNode, SKPhysicsContactDelegate {
     func spawn(at _point: CGPoint? = nil) {
         let point: CGPoint = _point ?? .randomInCircumference(ofRadius: 500)
         self.position = point
-        self.run(.repeatForever(walkingAnimation()))
+        self.sprite.run(.repeatForever(walkingAnimation()))
         
         // Walking to Center
         let distanceToCenter = sqrt(pow(self.position.x, 2) + pow(self.position.y, 2))
         let velocity: CGFloat = .random(in: 40...50)
         let timeToCenter = distanceToCenter/velocity
-        let moveAction = SKAction.move(to: .zero, duration: timeToCenter)
+        let moveAction = SKAction.move(to: .init(x: 0, y: 130), duration: timeToCenter)
         
         self.addChild(sprite)
         self.run(moveAction)
@@ -90,13 +96,4 @@ class MonsterNode: SKNode, SKPhysicsContactDelegate {
         ]))
     }
     
-    func didBegin(_ contact: SKPhysicsContact) {
-        let categoryA = contact.bodyA.categoryBitMask
-        let categoryB = contact.bodyB.categoryBitMask
-        
-        if categoryA == PhysicsCategory.Attack.rawValue || categoryB == PhysicsCategory.Attack.rawValue {
-            // A colisão ocorreu com a categoria Attack
-            self.die()
-        }
-    }
 }

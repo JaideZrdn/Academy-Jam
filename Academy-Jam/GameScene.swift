@@ -10,6 +10,7 @@ import GameplayKit
 
 class GameScene: SKScene {
     
+    var background: BackgroundNode?
     let flower: FlowerNode = .init()
     var monsters: Array<MonsterNode> = []
     var jardineiro = Gardener(baseSprite: "jardineiro")
@@ -25,9 +26,11 @@ class GameScene: SKScene {
     }
     
     override func sceneDidLoad() {
+        background = BackgroundNode(flower: flower)
         configButton()
         addChild(flower)
         addChild(jardineiro)
+        addChild(background!)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -46,9 +49,11 @@ class GameScene: SKScene {
     
     override func update(_ currentTime: TimeInterval) {
         if !flower.isTakingDamage {
+            background?.updateBackground()
             for i in 0..<monsters.count {
                 if flower.contains(monsters[i].position) {
                     flower.takeDamage()
+                    background?.updateBackground()
                 }
             }
         }
@@ -76,7 +81,7 @@ class GameScene: SKScene {
     }
     
     private func addMonster() {
-        let monster = MonsterNode()
+        let monster = MonsterNode(flower: flower)
         self.monsters.append(monster)
         monster.zPosition = 5
         monster.spawn()
